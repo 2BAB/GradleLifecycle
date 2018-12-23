@@ -19,7 +19,7 @@ buildscript {
     }
 }
 
-Lifecycle.onEvaluatingSettingsScript("Of course, you can refer anything from buildSrc in " +
+Lifecycle.onEvaluatingSettingsScript("Of course, you can reference anything from buildSrc in " +
         "settings.gradle. For example, we can get the value of `targetSDK` from `Config.kt`: " +
         Config.Android.targetSDK)
 Lifecycle.onEvaluatingSettingsScript("However, dependencies you defined above can only work " +
@@ -32,4 +32,8 @@ include(":app")
 
 Lifecycle.onEvaluatingSettingsScript("Usually we write our scripts here after including modules.")
 
-println("rootProject.children.size: " + rootProject.children.size)
+// println("rootProject.children.size: " + rootProject.children.size)
+
+gradle.settingsEvaluated({
+    Lifecycle.onSettingsEvaluated("")
+})

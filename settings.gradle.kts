@@ -5,7 +5,7 @@ Lifecycle.onEvaluatingSettingsScript("This message placed before and out of the 
         "block, But it STILL prints after the message that in buildscipt{} block.")
 
 buildscript {
-    println("[Lifecycle] >>> [settings.gradle.kts] >>> " +
+    println("[Lifecycle] >>> [onEvaluatingSettingsScript] >>> " +
             "Hi! Everybody! Let buildscript{} to be evaluated first! " +
             "Noticed that, here inside the buildscript{} can not invoke " +
             "`Lifecycle#onEvaluatingSettingsScript` that is from `buildSrc` component.")
@@ -35,5 +35,54 @@ Lifecycle.onEvaluatingSettingsScript("Usually we write our scripts here after in
 // println("rootProject.children.size: " + rootProject.children.size)
 
 gradle.settingsEvaluated({
-    Lifecycle.onSettingsEvaluated("")
+    Lifecycle.onSettingsEvaluated("Here you can refer all ProjectDescriptors, ex: ${this.project(":app").name}")
+})
+
+gradle.projectsLoaded({
+    Lifecycle.onProjectsEvaluated("${this.rootProject.childProjects.size}")
+    rootProject.beforeEvaluate({
+        Lifecycle.beforeEvaluate(this.displayName)
+    })
+
+    rootProject.tasks.whenTaskAdded({
+        Lifecycle.whenTaskAdded(rootProject.name + ":" + this.name)
+    })
+})
+
+gradle.beforeProject({
+    Lifecycle.beforeProject(this.displayName)
+})
+
+gradle.afterProject({
+    Lifecycle.afterProject(this.displayName)
+})
+
+gradle.projectsEvaluated({
+    Lifecycle.onProjectsEvaluated("")
+})
+
+gradle.taskGraph.whenReady({
+    Lifecycle.whenTaskGraphIsReady("")
+})
+
+gradle.taskGraph.beforeTask({
+    Lifecycle.beforeTask(this.name)
+})
+
+gradle.taskGraph.afterTask({
+    Lifecycle.afterTask(this.name)
+})
+
+gradle.addListener(object: TaskActionListener {
+    override fun beforeActions(task: Task) {
+        Lifecycle.beforeAction(task.name)
+    }
+
+    override fun afterActions(task: Task) {
+        Lifecycle.afterAction(task.name)
+    }
+})
+
+gradle.buildFinished({
+    Lifecycle.onBuildFinished("")
 })

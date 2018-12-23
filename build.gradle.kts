@@ -1,3 +1,5 @@
+import me.xx2bab.gradle.lifecycle.build.Lifecycle
+
 buildscript {
     println("build.gradle.kts buildscript")
 
@@ -32,4 +34,28 @@ task("clean") {
 
 apply(from = "./another_script.gradle.kts")
 
-println("rootProject.allprojects.size: " + rootProject.allprojects.size)
+//println("rootProject.allprojects.size: " + rootProject.allprojects.size)
+
+//beforeEvaluate({
+//    Lifecycle.beforeEvaluate(this.displayName)
+//})
+
+//afterEvaluate({
+//    Lifecycle.afterEvaluate(this.displayName)
+//})
+
+allprojects {
+    val proj = this
+
+    this.beforeEvaluate({
+        Lifecycle.beforeEvaluate(this.displayName)
+    })
+
+    this.afterEvaluate({
+        Lifecycle.afterEvaluate(this.displayName)
+    })
+
+    this.tasks.whenTaskAdded({
+        Lifecycle.whenTaskAdded(proj.name + ":" +  this.name)
+    })
+}

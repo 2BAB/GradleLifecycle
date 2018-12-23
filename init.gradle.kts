@@ -1,4 +1,4 @@
-println("[Lifecycle] >>> init")
+println("[Lifecycle] >>> [onEvaluatingInitScript]")
 
 // println("targetSDK: " + Config.Android.targetSDK)
 

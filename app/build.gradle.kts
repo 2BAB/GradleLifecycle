@@ -3,6 +3,7 @@ import me.xx2bab.gradle.lifecycle.build.Lifecycle
 
 plugins {
     id("com.android.application")
+    id("me.xx2bab.gradle.lifecycle.build")
 //    id("kotlin-android")
 //    id("kotlin-android-extensions")
 }

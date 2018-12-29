@@ -35,7 +35,8 @@ Lifecycle.onEvaluatingSettingsScript("Usually we write our scripts here after in
 // println("rootProject.children.size: " + rootProject.children.size)
 
 gradle.settingsEvaluated({
-    Lifecycle.onSettingsEvaluated("Here you can refer all ProjectDescriptors, ex: ${this.project(":app").name}")
+    Lifecycle.onSettingsEvaluated("Here you can refer all ProjectDescriptors, ex: ")
+    // ${this.project(":app").name}
 })
 
 gradle.projectsLoaded({

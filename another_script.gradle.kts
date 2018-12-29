@@ -3,3 +3,4 @@ object AnotherConfig {
 }
 
 val ambiguity2 = 3.1416
+

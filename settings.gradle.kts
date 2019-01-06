@@ -10,6 +10,9 @@ buildscript {
             "Noticed that, here inside the buildscript{} can not invoke " +
             "`Lifecycle#onEvaluatingSettingsScript` that is from `buildSrc` component.")
 
+    println("[Lifecycle] >>> [onEvaluatingSettingsScript] >>> " +
+            ">>> The classloader of buildscript is $classLoader.")
+
     repositories {
         jcenter()
     }
@@ -25,7 +28,8 @@ Lifecycle.onEvaluatingSettingsScript("Of course, you can reference anything from
 Lifecycle.onEvaluatingSettingsScript("However, dependencies you defined above can only work " +
         "in this scripts, or classpath scope is limited. Here is a snippet shows the usage" +
         "of the lib `fastjson`: ${(JSON.parseObject("{\"setting\": 233}").getIntValue("setting"))}")
-
+Lifecycle.onEvaluatingSettingsScript("The classloader of settings is ${javaClass.classLoader}," +
+        " hashcode is ${javaClass.classLoader.hashCode()}.")
 
 
 include(":app")
@@ -74,7 +78,7 @@ gradle.taskGraph.afterTask({
     Lifecycle.afterTask(this.name)
 })
 
-gradle.addListener(object: TaskActionListener {
+gradle.addListener(object : TaskActionListener {
     override fun beforeActions(task: Task) {
         Lifecycle.beforeAction(task.name)
     }

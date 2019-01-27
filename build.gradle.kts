@@ -19,7 +19,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.2.1")
+        classpath("com.android.tools.build:gradle:3.3.0")
 //        classpath("com.alibaba:fastjson:1.2.51")
     }
 }

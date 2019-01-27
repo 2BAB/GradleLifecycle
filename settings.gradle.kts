@@ -21,7 +21,9 @@ buildscript {
         classpath("com.alibaba:fastjson:1.2.51")
     }
 }
-
+rootProject.children.forEach { project ->
+    project.buildFileName = "${project.name}.gradle.kts"
+}
 Lifecycle.onEvaluatingSettingsScript("Of course, you can reference anything from buildSrc in " +
         "settings.gradle. For example, we can get the value of `targetSDK` from `Config.kt`: " +
         Config.Android.targetSDK)
@@ -31,16 +33,27 @@ Lifecycle.onEvaluatingSettingsScript("However, dependencies you defined above ca
 Lifecycle.onEvaluatingSettingsScript("The classloader of settings is ${javaClass.classLoader}," +
         " hashcode is ${javaClass.classLoader.hashCode()}.")
 
-
 include(":app")
+include(":lib")
 
 Lifecycle.onEvaluatingSettingsScript("Usually we write our scripts here after including modules.")
+
+rootProject.children.forEach {
+    it.buildFileName = "${it.name}.gradle.kts"
+}
+
 
 // println("rootProject.children.size: " + rootProject.children.size)
 
 gradle.settingsEvaluated({
     Lifecycle.onSettingsEvaluated("Here you can refer all ProjectDescriptors, ex: ")
     // ${this.project(":app").name}
+
+    // To help find invoking stack from the source code
+    val eles = Thread.currentThread().stackTrace
+    eles.forEach {
+        println(it.toString())
+    }
 })
 
 gradle.projectsLoaded({
